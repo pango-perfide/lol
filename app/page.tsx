@@ -50,7 +50,7 @@ const players: Player[] = [
     color: "#f97316",
   },
   {
-    name: "Sora",
+    name: "Sx le gros singe",
     role: "Support",
     rank: "Platinum",
     region: "EUW",
