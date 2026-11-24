@@ -147,8 +147,9 @@ export default function ProfilePage() {
         </div>
 
         <form
-          onSubmit={handleSubmit}
-          style={{
+  onSubmit={handleSubmit}
+  noValidate
+  style={{
             display: "flex",
             flexDirection: "column",
             gap: "20px",
