@@ -108,187 +108,42 @@ export default function TeamPage() {
             margin: "0 0 12px",
             color: "#a98cff",
             fontSize: "12px",
-            fontWeight: "bold",
-            letterSpacing: "2px",
-          }}
-        >
-          LEAGUE TEAM HUB
-        </p>
-
-        <h1
-          style={{
-            margin: "0 0 12px",
-            fontSize: "38px",
-          }}
-        >
-          Crée ton équipe
-        </h1>
-
-        <p
-          style={{
-            margin: "0 0 28px",
-            color: "#bdb7cf",
-            lineHeight: 1.6,
-          }}
-        >
-          Présente ton équipe et indique les joueurs que tu recherches.
-        </p>
-
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-          }}
-        >
-          <label>
-            <span>Nom de l'équipe</span>
-
-            <input
-              type="text"
-              placeholder="Exemple : Les Invocateurs"
-              value={team.nom}
-              onChange={(event) =>
-                updateField("nom", event.target.value)
-              }
-              style={inputStyle}
-            />
-          </label>
-
-          <label>
-            <span>Description</span>
-
-            <textarea
-              placeholder="Présente ton équipe en quelques mots..."
-              value={team.description}
-              onChange={(event) =>
-                updateField("description", event.target.value)
-              }
-              rows={5}
-              style={{
-                ...inputStyle,
-                paddingTop: "14px",
-                resize: "vertical",
-              }}
-            />
-          </label>
-
-          <label>
-            <span>Niveau recherché</span>
-
-            <select
-              value={team.niveau}
-              onChange={(event) =>
-                updateField("niveau", event.target.value)
-              }
-              style={inputStyle}
-            >
-              <option value="">Sélectionne un niveau</option>
-
-              {levels.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            <span>Objectif de l'équipe</span>
-
-            <select
-              value={team.objectif}
-              onChange={(event) =>
-                updateField("objectif", event.target.value)
-              }
-              style={inputStyle}
-            >
-              <option value="">Sélectionne un objectif</option>
-
-              {objectives.map((objective) => (
-                <option key={objective} value={objective}>
-                  {objective}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <fieldset
-            style={{
-              border: 0,
-              padding: 0,
-              margin: 0,
+        fontWeight: "bold",
+              cursor: "pointer",
             }}
           >
-            <legend style={{ marginBottom: "12px" }}>
-              Rôles recherchés
-            </legend>
+            Créer mon équipe
+          </button>
 
-            <div
+          {message && (
+            <p
               style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(130px, 1fr))",
-                gap: "10px",
+                margin: 0,
+                padding: "12px",
+                borderRadius: "8px",
+                background: "#183b2c",
+                color: "#7de0aa",
               }}
             >
-              {roles.map((role) => {
-                const selected = team.roles.includes(role);
+              {message}
+            </p>
+          )}
+        </form>
+      </section>
+    </main>
+  );
+}
 
-                return (
-                  <label
-                    key={role}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "12px",
-                      borderRadius: "10px",
-                      border: selected
-                        ? "1px solid #a98cff"
-                        : "1px solid #40395d",
-                      background: selected
-                        ? "#302252"
-                        : "#121020",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selected}
-                      onChange={() => toggleRole(role)}
-                    />
-
-                    <span>{role}</span>
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
-
-          <label>
-            <span>Horaires habituels</span>
-
-            <input
-              type="text"
-              placeholder="Exemple : mardi et jeudi, 20h à 22h"
-              value={team.horaires}
-              onChange={(event) =>
-                updateField("horaires", event.target.value)
-              }
-              style={inputStyle}
-            />
-          </label>
-
-          <button
-            type="submit"
-            style={{
-              minHeight: "52px",
-              border: 0,
-              borderRadius: "10px",
-              background: "#8d62f5",
-              color: "white",
-              fontSize: "16px",
-              fontWeight: 
+const inputStyle = {
+  display: "block",
+  width: "100%",
+  minHeight: "48px",
+  marginTop: "8px",
+  padding: "0 14px",
+  boxSizing: "border-box" as const,
+  border: "1px solid #40395d",
+  borderRadius: "10px",
+  background: "#121020",
+  color: "white",
+  fontSize: "15px",
+};
