@@ -68,29 +68,37 @@ export default function ProfilePage() {
     });
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
 
-    if (
-      !profile.pseudo ||
-      !profile.role ||
-      !profile.niveau ||
-      profile.jours.length === 0 ||
-      !profile.heureDebut ||
-      !profile.heureFin
-    ) {
-      setMessage("Remplis tous les champs avant de continuer.");
-      return;
-    }
+  const missingField =
+    !profile.pseudo ||
+    !profile.role ||
+    !profile.niveau ||
+    profile.jours.length === 0 ||
+    !profile.heureDebut ||
+    !profile.heureFin;
 
+  if (missingField) {
+    setMessage(
+      "Remplis le pseudo, le rôle, le niveau, un jour et les deux horaires."
+    );
+    return;
+  }
+
+  setMessage("Ton profil joueur a bien été créé.");
+
+  try {
     localStorage.setItem(
       "leagueTeamHubPlayerProfile",
       JSON.stringify(profile)
     );
-
-    setMessage("Ton profil joueur a bien été enregistré.");
+  } catch {
+    setMessage(
+      "Le profil est créé, mais il n'a pas pu être conservé dans ce navigateur."
+    );
   }
-
+}
   return (
     <main
       style={{
