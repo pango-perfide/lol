@@ -105,7 +105,9 @@ export default function HomePage() {
           <a href="#recruitment">Recrutement</a>
         </div>
 
-        <button className="nav-button">Créer un profil</button>
+        <a href="/profile" className="nav-button">
+  Créer un profil
+</a>
       </nav>
 
       <section className="hero">
