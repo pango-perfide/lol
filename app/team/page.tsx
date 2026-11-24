@@ -31,7 +31,10 @@ export default function TeamPage() {
 
   const [message, setMessage] = useState("");
 
-  function updateField(field: string, value: string) {
+  function updateField(
+    field: "nom" | "description" | "niveau" | "objectif" | "horaires",
+    value: string
+  ) {
     setTeam((currentTeam) => ({
       ...currentTeam,
       [field]: value,
@@ -40,13 +43,13 @@ export default function TeamPage() {
 
   function toggleRole(role: string) {
     setTeam((currentTeam) => {
-      const roleAlreadySelected = currentTeam.roles.includes(role);
+      const selected = currentTeam.roles.includes(role);
 
       return {
         ...currentTeam,
-        roles: roleAlreadySelected
+        roles: selected
           ? currentTeam.roles.filter(
-              (selectedRole) => selectedRole !== role
+              (currentRole) => currentRole !== role
             )
           : [...currentTeam.roles, role],
       };
@@ -70,23 +73,19 @@ export default function TeamPage() {
       return;
     }
 
-    try {
-      localStorage.setItem(
-        "leagueTeamHubTeam",
-        JSON.stringify(team)
-      );
+    localStorage.setItem(
+      "leagueTeamHubTeam",
+      JSON.stringify(team)
+    );
 
-      setMessage("Ton équipe a bien été créée.");
-    } catch {
-      setMessage("L'équipe a été créée, mais n'a pas pu être conservée.");
-    }
+    setMessage("Ton équipe a bien été créée.");
   }
 
   return (
     <main
       style={{
         minHeight: "100vh",
-        padding: "48px 20px",
+        padding: "40px 20px",
         background: "#0d0b18",
         color: "white",
         fontFamily: "Arial, sans-serif",
@@ -94,21 +93,147 @@ export default function TeamPage() {
     >
       <section
         style={{
-          width: "100%",
-          maxWidth: "700px",
+          maxWidth: "680px",
           margin: "0 auto",
           padding: "32px",
           borderRadius: "20px",
           background: "#19152b",
-          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.35)",
         }}
       >
-        <p
+        <p style={{ color: "#a98cff", fontWeight: "bold" }}>
+          LEAGUE TEAM HUB
+        </p>
+
+        <h1>Crée ton équipe</h1>
+
+        <p style={{ color: "#bdb7cf" }}>
+          Présente ton équipe et indique les rôles que tu recherches.
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          noValidate
           style={{
-            margin: "0 0 12px",
-            color: "#a98cff",
-            fontSize: "12px",
-        fontWeight: "bold",
+            display: "flex",
+            flexDirection: "column",
+            gap: "18px",
+          }}
+        >
+          <label>
+            Nom de l'équipe
+            <input
+              type="text"
+              value={team.nom}
+              onChange={(event) =>
+                updateField("nom", event.target.value)
+              }
+              placeholder="Exemple : Les Invocateurs"
+              style={inputStyle}
+            />
+          </label>
+
+          <label>
+            Description
+            <textarea
+              value={team.description}
+              onChange={(event) =>
+                updateField("description", event.target.value)
+              }
+              placeholder="Présente ton équipe..."
+              rows={5}
+              style={inputStyle}
+            />
+          </label>
+
+          <label>
+            Niveau recherché
+            <select
+              value={team.niveau}
+              onChange={(event) =>
+                updateField("niveau", event.target.value)
+              }
+              style={inputStyle}
+            >
+              <option value="">Sélectionne un niveau</option>
+
+              {levels.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            Objectif de l'équipe
+            <select
+              value={team.objectif}
+              onChange={(event) =>
+                updateField("objectif", event.target.value)
+              }
+              style={inputStyle}
+            >
+              <option value="">Sélectionne un objectif</option>
+
+              {objectives.map((objective) => (
+                <option key={objective} value={objective}>
+                  {objective}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <fieldset
+            style={{
+              border: 0,
+              padding: 0,
+            }}
+          >
+            <legend>Rôles recherchés</legend>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "12px",
+                marginTop: "10px",
+              }}
+            >
+              {roles.map((role) => (
+                <label key={role}>
+                  <input
+                    type="checkbox"
+                    checked={team.roles.includes(role)}
+                    onChange={() => toggleRole(role)}
+                  />{" "}
+                  {role}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <label>
+            Horaires habituels
+            <input
+              type="text"
+              value={team.horaires}
+              onChange={(event) =>
+                updateField("horaires", event.target.value)
+              }
+              placeholder="Exemple : mardi et jeudi, 20h à 22h"
+              style={inputStyle}
+            />
+          </label>
+
+          <button
+            type="submit"
+            style={{
+              padding: "14px",
+              border: 0,
+              borderRadius: "10px",
+              background: "#8d62f5",
+              color: "white",
+              fontWeight: "bold",
               cursor: "pointer",
             }}
           >
@@ -118,7 +243,6 @@ export default function TeamPage() {
           {message && (
             <p
               style={{
-                margin: 0,
                 padding: "12px",
                 borderRadius: "8px",
                 background: "#183b2c",
@@ -137,12 +261,11 @@ export default function TeamPage() {
 const inputStyle = {
   display: "block",
   width: "100%",
-  minHeight: "48px",
   marginTop: "8px",
-  padding: "0 14px",
+  padding: "12px",
   boxSizing: "border-box" as const,
   border: "1px solid #40395d",
-  borderRadius: "10px",
+  borderRadius: "8px",
   background: "#121020",
   color: "white",
   fontSize: "15px",
